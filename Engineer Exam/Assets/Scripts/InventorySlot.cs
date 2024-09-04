@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour
 {
@@ -26,11 +27,15 @@ public class InventorySlot : MonoBehaviour
 
     public void AddItemToSlot(Item item)
     {
-        currentItem = item;
-        itemSprite.sprite = item.itemImage;
         itemsInSlot++;
         countText.text = itemsInSlot.ToString();
+    }
 
+    public void KeepSame(Item item)
+    {
+        currentItem = item;
+        itemSprite.sprite = item.itemImage;
+        countText.text = itemsInSlot.ToString();
     }
 
     public void AddNewItem(Item item)

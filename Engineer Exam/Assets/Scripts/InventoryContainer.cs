@@ -73,9 +73,12 @@ public abstract class InventoryContainer : MonoBehaviour
         //Check each of the items to see if the item is alread in the inventory
         foreach (Item i in items)
         {
-            if (item == i)
+            if (item.itemID == i.itemID)
             {
-                inventoryUI.GetComponent<InventoryUIController>().AddToExistingItem(itemRef);
+                InventorySlot slot = inventoryUI.GetComponent<InventoryUIController>().GetItemSlot(i);
+                slot.itemsInSlot += 1;
+                inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
+                Debug.Log("Added to current");
                 return;
             }
         }

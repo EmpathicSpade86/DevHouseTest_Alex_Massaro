@@ -32,37 +32,59 @@ public class InventoryUIController : MonoBehaviour
             slots.Add(slotsParent.transform.GetChild(i).GetComponent<InventorySlot>());
         }
 
-        Debug.Log(slots.Count);
+        //Debug.Log(slots.Count);
     }
 
     public void UIUpdate()
     {
         int i = 0;
-
-        foreach (Item item in inventory.GetItems())
+        foreach (InventorySlot slot in slots) 
         {
-            if (item != null)
+            foreach (Item item in inventory.GetItems())
             {
-                slots[i].GetComponent<InventorySlot>().AddItemToSlot(item);
-                
+                if (item != null && item == slot.currentItem)
+                {
+                    slots[i].GetComponent<InventorySlot>().KeepSame(item);
+                    return;
+                }
+                else if (item != null)
+                {
+                    slots[i].GetComponent<InventorySlot>().AddNewItem(item);
+                    return;
+                }
+                i++;
             }
-            i++;
         }
+        
 
     }
 
-    public void AddToExistingItem(Item item)
+    //public void AddToExistingItem(Item item)
+    //{
+    //    foreach(InventorySlot slot in slots)
+    //    {
+    //        if(item == slot.currentItem)
+    //        {
+    //            Debug.Log("Added to Existing Item");
+    //            slot.itemsInSlot += 1/2;
+    //            UIUpdate();
+    //            return;
+    //        }
+    //    }
+    //}
+
+    public InventorySlot GetItemSlot(Item item)
     {
         foreach(InventorySlot slot in slots)
         {
-            if(item == slot.currentItem)
+            if (item == slot.currentItem)
             {
-                slot.itemsInSlot += 1/2;
-                UIUpdate();
-                return;
+                return slot;
             }
         }
+        return null;
     }
+
 
     public void RemoveItem(Item item)
     {

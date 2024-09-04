@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public abstract class Item : MonoBehaviour
 {
+    public string itemID = "";
     public Sprite itemImage;
     private void OnTriggerEnter(Collider other)
     {
