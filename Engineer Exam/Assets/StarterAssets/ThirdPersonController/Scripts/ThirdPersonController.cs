@@ -106,6 +106,8 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
 
+        private PlayerInventory _inventory;
+
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
@@ -141,6 +143,7 @@ namespace StarterAssets
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
+            _inventory = GetComponentInChildren<PlayerInventory>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
@@ -159,6 +162,26 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            InventoryInteract();
+            ChestInteract(); 
+        }
+
+        private void ChestInteract()
+        {
+            if (_input.interact)
+            {
+                Debug.Log("Interact With Chest");
+                _input.interact = false;
+            }
+        }
+
+        private void InventoryInteract()
+        {
+            if (_input.inventory)
+            {
+                _inventory.Input();
+                _input.inventory = false;
+            }
         }
 
         private void LateUpdate()
