@@ -6,12 +6,12 @@ public class PlayerInventory : InventoryContainer
 {
     protected override void StartFunctions()
     {
-        ToggleContainer();
+        ToggleContainer(); //Toggle the UI for the Player Inventory, this will make it appear at the beginning 
         
     }
     public override void Input()
     {
-        ToggleContainer();
+        ToggleContainer(); //Toggle with the button (i key)
     }
 
 }

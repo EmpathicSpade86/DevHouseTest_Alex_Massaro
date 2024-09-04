@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public abstract class Item : MonoBehaviour
 {
-    public string itemID = "";
-    public Sprite itemImage;
+    //Base Item Class
+    public string itemID = ""; //ID to check to see if the item is already in the player's inventory or chest inventory
+    public Sprite itemImage; //Sprite image for the item
     private void OnTriggerEnter(Collider other)
     {
+        //Handle collision with the player
         if (other.gameObject.tag == "Player")
         {
             PlayerInventory inventory = other.gameObject.GetComponentInChildren<PlayerInventory>();

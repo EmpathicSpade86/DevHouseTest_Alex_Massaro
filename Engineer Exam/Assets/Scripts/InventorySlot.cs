@@ -14,23 +14,25 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] private Button transferButton;
 
     private InventoryUIController controller;
-    public int itemsInSlot = 0;
+    public int itemsInSlot = 0; //The Counter for how many items are currently in the slot
 
     private void Start()
     {
-        controller = transform.parent.parent.GetComponent<InventoryUIController>();
+        controller = transform.parent.parent.GetComponent<InventoryUIController>(); //For the Remove Item funciton
 
         currentItem = null;
         itemSprite.sprite = null;
         countText.text = itemsInSlot.ToString();
     }
 
-    public void AddItemToSlot(Item item)
-    {
-        itemsInSlot++;
-        countText.text = itemsInSlot.ToString();
-    }
 
+    //public void AddItemToSlot(Item item)
+    //{
+    //    itemsInSlot++;
+    //    countText.text = itemsInSlot.ToString();
+    //}
+
+    //Don't increase or decrease the count
     public void KeepSame(Item item)
     {
         currentItem = item;
@@ -38,6 +40,7 @@ public class InventorySlot : MonoBehaviour
         countText.text = itemsInSlot.ToString();
     }
 
+    //Add A completely new Item to the inventory
     public void AddNewItem(Item item)
     {
         currentItem = item;
@@ -47,6 +50,7 @@ public class InventorySlot : MonoBehaviour
 
     }
 
+    //Remove an item from the slot, if there are none left, completely remove it from the list
     public void RemoveItemFromSlot()
     {
         itemsInSlot--;
@@ -63,7 +67,7 @@ public class InventorySlot : MonoBehaviour
 
     }
 
-    public void ToggleDropButton()
+    public void ToggleDropButton() //Drop Button behavior
     {
         if (itemsInSlot > 0)
         {
@@ -82,6 +86,7 @@ public class InventorySlot : MonoBehaviour
         }
     }
 
+    //Transfer Button Behavior
     bool canTransfer = false;
     public void ToggleTransferButton()
     {

@@ -163,10 +163,11 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
-            InventoryInteract();
-            ChestInteract(); 
+            InventoryInteract(); // Interact to open/Close the Inventory
+            ChestInteract();  //Interaction to open/Close the chests
         }
 
+        //Handle Interacting with the chests
         private void ChestInteract()
         {
             if (_input.interact)
@@ -180,6 +181,7 @@ namespace StarterAssets
             }
         }
 
+        //Handle Opening/Closing the Inventory
         private void InventoryInteract()
         {
             if (_input.inventory)

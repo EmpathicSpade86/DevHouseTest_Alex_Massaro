@@ -18,6 +18,7 @@ public class InventoryUIController : MonoBehaviour
         
     }
 
+    //Sets the amount of slots at the start to the amount listed in the Inventory container (Player or Chest) scripts
     private void SetInventorySlots()
     {
         for (int i = 0; i < inventory.GetInventorySlots(); i++)
@@ -35,6 +36,7 @@ public class InventoryUIController : MonoBehaviour
         //Debug.Log(slots.Count);
     }
 
+    //Update the UI for the Inventory
     public void UIUpdate()
     {
         int i = 0;
@@ -59,20 +61,7 @@ public class InventoryUIController : MonoBehaviour
 
     }
 
-    //public void AddToExistingItem(Item item)
-    //{
-    //    foreach(InventorySlot slot in slots)
-    //    {
-    //        if(item == slot.currentItem)
-    //        {
-    //            Debug.Log("Added to Existing Item");
-    //            slot.itemsInSlot += 1/2;
-    //            UIUpdate();
-    //            return;
-    //        }
-    //    }
-    //}
-
+    //Return the slot with an item to add to its current count
     public InventorySlot GetItemSlot(Item item)
     {
         foreach(InventorySlot slot in slots)
@@ -86,7 +75,7 @@ public class InventoryUIController : MonoBehaviour
     }
 
 
-    public void RemoveItem(Item item)
+    public void RemoveItem(Item item) //Used in the Inventory slot script to call the Inventory Container Script to completely remove an item
     {
         GetComponentInParent<InventoryContainer>().RemoveItem(item);
     }
