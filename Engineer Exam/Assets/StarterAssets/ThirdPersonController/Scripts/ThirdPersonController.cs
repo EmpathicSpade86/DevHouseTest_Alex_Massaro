@@ -107,6 +107,7 @@ namespace StarterAssets
         private GameObject _mainCamera;
 
         private PlayerInventory _inventory;
+        public ChestContainer _chestContainer;
 
         private const float _threshold = 0.01f;
 
@@ -170,7 +171,11 @@ namespace StarterAssets
         {
             if (_input.interact)
             {
-                Debug.Log("Interact With Chest");
+                if (_chestContainer != null)
+                {
+                    _chestContainer.Input();
+                }
+                
                 _input.interact = false;
             }
         }

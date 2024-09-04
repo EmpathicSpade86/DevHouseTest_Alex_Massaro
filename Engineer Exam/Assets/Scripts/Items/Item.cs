@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public abstract class Item : MonoBehaviour
 {
     public Sprite itemImage;
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            PlayerInventory inventory = collision.gameObject.GetComponentInChildren<PlayerInventory>(); 
+            PlayerInventory inventory = other.gameObject.GetComponentInChildren<PlayerInventory>();
             inventory.AddItem(this);
+            Debug.Log("Collided With Player");
+            Destroy(gameObject);
         }
     }
 }

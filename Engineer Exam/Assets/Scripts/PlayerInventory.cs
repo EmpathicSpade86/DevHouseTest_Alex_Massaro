@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class PlayerInventory : InventoryContainer
 {
+    protected override void StartFunctions()
+    {
+        ToggleContainer();
+        
+    }
     public override void Input()
     {
-        base.Input();
+        ToggleContainer();
     }
 
 }
