@@ -1,4 +1,5 @@
 using StarterAssets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public abstract class InventoryContainer : MonoBehaviour
 
     [SerializeField] private int curItemCount = 0; //Current amount of items the player has
 
-    [SerializeField] private InventoryContainer otherContainer;
+    [SerializeField] protected InventoryContainer otherContainer;
 
 
 
@@ -74,6 +75,9 @@ public abstract class InventoryContainer : MonoBehaviour
     public void AddItem(Item item)
     {
         Debug.Log("Beggining to Add Item");
+
+        if (item == null ) { return; }
+        
         Item itemRef = Instantiate(item); //Instantiates a new item
         itemRef.gameObject.SetActive(false); //Sets its active state to false so the player cannot see it
 
@@ -83,6 +87,7 @@ public abstract class InventoryContainer : MonoBehaviour
             items.Add(itemRef);
             inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
             curItemCount++;
+            return;
         }
 
         //Check each of the items to see if the item is alread in the inventory
@@ -116,7 +121,18 @@ public abstract class InventoryContainer : MonoBehaviour
         inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
         curItemCount--;
     }
-    
+
+    private void Update()
+    {
+        if ( otherContainer == null)
+        {
+            foreach (InventorySlot slot in inventoryUI.GetComponent<InventoryUIController>().slots)
+            {
+                slot.ToggleTransferBool(false);
+            }
+        }
+    }
+
 
 
     public List<Item> GetItems() { return items; }
@@ -128,7 +144,19 @@ public abstract class InventoryContainer : MonoBehaviour
         otherContainer = chestContainer;
         foreach (InventorySlot slot in inventoryUI.GetComponent<InventoryUIController>().slots)
         {
-            slot.ToggleTransferBool();
+            slot.ToggleTransferBool(true);
+        }
+        foreach (InventorySlot slot in otherContainer.inventoryUI.GetComponent<InventoryUIController>().slots)
+        {
+            slot.ToggleTransferBool(true);
+        }
+    }
+
+    public void DisableTransfer()
+    {
+        foreach (InventorySlot slot in inventoryUI.GetComponent<InventoryUIController>().slots)
+        {
+            slot.ToggleTransferBool(false);
         }
     }
 

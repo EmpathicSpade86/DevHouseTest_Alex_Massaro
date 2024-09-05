@@ -16,6 +16,10 @@ public class PlayerInventory : InventoryContainer
         ToggleContainer(); //Toggle with the button (i key)
     }
     
+    public void OutOfRangeOfTransfer()
+    {
+        otherContainer = null;
+    }
 
-
+    
 }

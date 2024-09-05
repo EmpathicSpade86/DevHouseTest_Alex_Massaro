@@ -24,6 +24,7 @@ public class ChestContainer : InventoryContainer
         if (other.gameObject.tag == "Player") //Check the trigger area to make sure the player is in it
         {
             player._chestContainer = this; //Sets the current chest to this
+            otherContainer = player.GetComponentInChildren<PlayerInventory>();
         }
     }
 
@@ -32,7 +33,9 @@ public class ChestContainer : InventoryContainer
         //Remove the current chest so the player cannot interact with it
         if (other.gameObject.tag == "Player")
         {
-            player._chestContainer = null; 
+            player._chestContainer = null;
+            otherContainer = null;
+            player.GetComponentInChildren<PlayerInventory>().OutOfRangeOfTransfer();
             if (inventoryUI.activeInHierarchy) //If the Player moves away from the chest while it is open, this will close it
             {
                 Input();
@@ -48,7 +51,8 @@ public class ChestContainer : InventoryContainer
         {
             slot.DisableDropButton();
         }
-
     }
+
+
 
 }

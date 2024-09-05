@@ -178,8 +178,12 @@ namespace StarterAssets
                 if (_chestContainer != null)
                 {
                     _chestContainer.Input();
-                    canTransfer = !canTransfer;
+                    canTransfer = true;
                     _inventory.GetOtherContainer(_chestContainer);
+                }
+                else
+                {
+                    canTransfer = false;
                 }
                 
                 _input.interact = false;

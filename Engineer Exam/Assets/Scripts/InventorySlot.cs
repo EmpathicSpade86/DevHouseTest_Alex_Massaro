@@ -59,14 +59,15 @@ public class InventorySlot : MonoBehaviour
         {
             controller.RemoveItem(currentItem);
             currentItem = null;
-            itemSprite.color = new Color(0,0,0,0);
+        }
+        else
+        {
 
         }
 
         if (itemsInSlot <= 0) 
         {
-            ToggleDropButton();
-            ToggleTransferButton();
+            ToggleButtons();
             itemsInSlot = 0; 
         }
             
@@ -74,7 +75,7 @@ public class InventorySlot : MonoBehaviour
 
     }
 
-    public void ToggleDropButton() //Drop Button behavior
+    public void ToggleButtons()
     {
         if (itemsInSlot > 0 && !disableDropButton)
         {
@@ -91,12 +92,6 @@ public class InventorySlot : MonoBehaviour
         {
             dropButton.gameObject.SetActive(false);
         }
-    }
-
-    //Transfer Button Behavior
-    bool canTransfer = false;
-    public void ToggleTransferButton()
-    {
         if (itemsInSlot > 0 && canTransfer)
         {
             if (transferButton.gameObject.activeInHierarchy)
@@ -108,13 +103,17 @@ public class InventorySlot : MonoBehaviour
                 transferButton.gameObject.SetActive(true);
             }
         }
+
     }
+
+    //Transfer Button Behavior
+    bool canTransfer = false;
 
     //Called by the transfer button
     public void OnTransfer()
     {
-        RemoveItemFromSlot();
         controller.TransferFromSlot(currentItem);
+        RemoveItemFromSlot();
     }
 
     public void DisableDropButton()
@@ -122,9 +121,25 @@ public class InventorySlot : MonoBehaviour
         disableDropButton = true;
     }
 
-    public void ToggleTransferBool()
+    public void ToggleTransferBool(bool intake)
     {
-        canTransfer = !canTransfer;
-    }    
+        canTransfer = intake;
+    }
+
+    private void Update()
+    {
+        transferButton.gameObject.SetActive(canTransfer);
+
+        if (itemsInSlot <= 0)
+        {
+            itemSprite.color = new Color(0, 0, 0, 0);
+
+        }
+        else
+        {
+            itemSprite.color = new Color(255, 255, 255, 255);
+
+        }
+    }
 
 }
