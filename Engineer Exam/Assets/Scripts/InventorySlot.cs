@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private Button dropButton;
     [SerializeField] private Button transferButton;
+    private bool disableDropButton = false; //Used for chests, so they can't drop anything
 
     private InventoryUIController controller;
     public int itemsInSlot = 0; //The Counter for how many items are currently in the slot
@@ -62,6 +62,13 @@ public class InventorySlot : MonoBehaviour
             itemSprite.color = new Color(0,0,0,0);
 
         }
+
+        if (itemsInSlot <= 0) 
+        {
+            ToggleDropButton();
+            ToggleTransferButton();
+            itemsInSlot = 0; 
+        }
             
         countText.text = itemsInSlot.ToString();
 
@@ -69,7 +76,7 @@ public class InventorySlot : MonoBehaviour
 
     public void ToggleDropButton() //Drop Button behavior
     {
-        if (itemsInSlot > 0)
+        if (itemsInSlot > 0 && !disableDropButton)
         {
             if (dropButton.gameObject.activeInHierarchy)
             {
@@ -102,5 +109,22 @@ public class InventorySlot : MonoBehaviour
             }
         }
     }
+
+    //Called by the transfer button
+    public void OnTransfer()
+    {
+        RemoveItemFromSlot();
+        controller.TransferFromSlot(currentItem);
+    }
+
+    public void DisableDropButton()
+    {
+        disableDropButton = true;
+    }
+
+    public void ToggleTransferBool()
+    {
+        canTransfer = !canTransfer;
+    }    
 
 }

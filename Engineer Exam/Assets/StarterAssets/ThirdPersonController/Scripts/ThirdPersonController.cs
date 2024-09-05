@@ -167,6 +167,9 @@ namespace StarterAssets
             ChestInteract();  //Interaction to open/Close the chests
         }
 
+        private bool canTransfer = false;
+
+
         //Handle Interacting with the chests
         private void ChestInteract()
         {
@@ -175,6 +178,8 @@ namespace StarterAssets
                 if (_chestContainer != null)
                 {
                     _chestContainer.Input();
+                    canTransfer = !canTransfer;
+                    _inventory.GetOtherContainer(_chestContainer);
                 }
                 
                 _input.interact = false;

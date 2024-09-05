@@ -15,6 +15,10 @@ public abstract class InventoryContainer : MonoBehaviour
 
     [SerializeField] private int curItemCount = 0; //Current amount of items the player has
 
+    [SerializeField] private InventoryContainer otherContainer;
+
+
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<ThirdPersonController>(); //Find the Player
@@ -69,9 +73,17 @@ public abstract class InventoryContainer : MonoBehaviour
     //Adds Item to the list
     public void AddItem(Item item)
     {
+        Debug.Log("Beggining to Add Item");
         Item itemRef = Instantiate(item); //Instantiates a new item
         itemRef.gameObject.SetActive(false); //Sets its active state to false so the player cannot see it
 
+        if(items.Count == 0)
+        {
+            Debug.Log("Added Item");
+            items.Add(itemRef);
+            inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
+            curItemCount++;
+        }
 
         //Check each of the items to see if the item is alread in the inventory
         foreach (Item i in items)
@@ -104,8 +116,40 @@ public abstract class InventoryContainer : MonoBehaviour
         inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
         curItemCount--;
     }
+    
+
 
     public List<Item> GetItems() { return items; }
     public int GetInventorySlots() { return inventorySlots; }
+
+
+    public void GetOtherContainer(InventoryContainer chestContainer)
+    {
+        otherContainer = chestContainer;
+        foreach (InventorySlot slot in inventoryUI.GetComponent<InventoryUIController>().slots)
+        {
+            slot.ToggleTransferBool();
+        }
+    }
+
+    public void TransferItem(Item item)
+    {
+        if (otherContainer == this)
+        {
+            Debug.LogError("Houston we have a problem");
+            return;
+        }
+
+        foreach (InventorySlot slot in inventoryUI.GetComponent<InventoryUIController>().slots)
+        {
+            if (item == slot.currentItem)
+            {
+                Debug.Log("Transfer: " + otherContainer.name);
+                otherContainer.AddItem(item);
+                Debug.Log(otherContainer.GetItems().Count);
+            }
+        }
+
+    }
 
 }

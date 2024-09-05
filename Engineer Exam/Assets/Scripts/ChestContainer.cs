@@ -41,4 +41,14 @@ public class ChestContainer : InventoryContainer
         }
     }
 
+    //Make it so you can't use the drop button in the Chest
+    private void DisableDropButton()
+    {
+        foreach(InventorySlot slot in inventoryUI.GetComponent<InventoryUIController>().slots)
+        {
+            slot.DisableDropButton();
+        }
+
+    }
+
 }

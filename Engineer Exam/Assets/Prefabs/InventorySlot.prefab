@@ -329,7 +329,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5346187151944293677}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3275711375230529233}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: OnTransfer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3885479835037526180
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +532,7 @@ MonoBehaviour:
   itemSprite: {fileID: 2320404639206556735}
   countText: {fileID: 9168671251918506494}
   dropButton: {fileID: 4571138731553440270}
-  transferButton: {fileID: 0}
+  transferButton: {fileID: 734574229089624220}
   itemsInSlot: 0
 --- !u!114 &3341471191041094312
 MonoBehaviour:

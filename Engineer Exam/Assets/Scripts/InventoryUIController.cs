@@ -8,7 +8,7 @@ public class InventoryUIController : MonoBehaviour
     [SerializeField] private GameObject slotsParent;
     [SerializeField] private GameObject inventorySlot;
 
-    [SerializeField] private List<InventorySlot> slots;
+    [SerializeField] public List<InventorySlot> slots;
 
     private void Start()
     {
@@ -78,5 +78,11 @@ public class InventoryUIController : MonoBehaviour
     public void RemoveItem(Item item) //Used in the Inventory slot script to call the Inventory Container Script to completely remove an item
     {
         GetComponentInParent<InventoryContainer>().RemoveItem(item);
+    }
+
+    //Used to pass the item to the inventory controller to transfer
+    public void TransferFromSlot(Item item)
+    {
+        inventory.TransferItem(item);
     }
 }
