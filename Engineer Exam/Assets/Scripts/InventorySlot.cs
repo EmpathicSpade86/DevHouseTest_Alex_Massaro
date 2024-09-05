@@ -15,6 +15,7 @@ public class InventorySlot : MonoBehaviour
 
     private InventoryUIController controller;
     public int itemsInSlot = 0; //The Counter for how many items are currently in the slot
+    [SerializeField] public int maxInSlot = 64;
 
     private void Start()
     {
@@ -140,6 +141,14 @@ public class InventorySlot : MonoBehaviour
             itemSprite.color = new Color(255, 255, 255, 255);
 
         }
+
+        if (itemSprite.sprite == null && currentItem != null)
+        {
+            itemSprite.sprite = currentItem.itemImage;
+            countText.text = itemsInSlot.ToString();
+        }
+        countText.text = itemsInSlot.ToString();
+
     }
 
 }

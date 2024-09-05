@@ -18,7 +18,8 @@ public abstract class Item : MonoBehaviour
             PlayerInventory inventory = other.gameObject.GetComponentInChildren<PlayerInventory>();
             inventory.AddItem(this);
             Debug.Log("Collided With Player");
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
             
         }
     }

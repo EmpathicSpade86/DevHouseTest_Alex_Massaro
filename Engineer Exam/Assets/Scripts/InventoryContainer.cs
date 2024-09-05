@@ -88,30 +88,73 @@ public abstract class InventoryContainer : MonoBehaviour
             inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
             curItemCount++;
             return;
-        }
+        } 
 
-        //Check each of the items to see if the item is alread in the inventory
         foreach (Item i in items)
         {
-            //If the item being added is already in the inventory, increase its count in the slots by one
-            if (item.itemID == i.itemID)
+            InventorySlot slot = inventoryUI?.GetComponent<InventoryUIController>()?.GetItemSlot(i);
+            //Check for null references before accessing the slot
+            if (slot == null)
             {
-                InventorySlot slot = inventoryUI.GetComponent<InventoryUIController>().GetItemSlot(i);
+                Debug.LogError("Slot is null or inventory UI is missing!");
+                continue;
+            }
+
+            //If item is already in inventory and there's room in the slot
+            if (item.itemID == i.itemID && slot.itemsInSlot < slot.maxInSlot)
+            {
                 slot.itemsInSlot += 1;
                 inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
-                //Debug.Log("Added to current");
+                return;
+            }
+            //If item is in inventory but slot is full, move to the next slot
+            else if (item.itemID == i.itemID && slot.itemsInSlot == slot.maxInSlot)
+            {
+                Debug.Log("Max Items Reached");
+                bool slotFound = false;
+
+                //Loop through available slots to find an empty one
+                foreach (InventorySlot availableSlot in inventoryUI.GetComponent<InventoryUIController>().slots)
+                {
+                    if (availableSlot.itemsInSlot < availableSlot.maxInSlot)
+                    {
+                        Debug.Log("Move to new slot");
+                        availableSlot.currentItem = item; // Assuming you're adding the same item
+                        availableSlot.itemsInSlot += 1;
+                        inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
+                        curItemCount++;
+                        slotFound = true;
+                        break;
+                    }
+                }
+
+                if (!slotFound)
+                {
+                    Debug.Log("No available slots");
+                }
                 return;
             }
         }
-        //otherwise, check to see if there are free slots in the inventory, if there are add the item to a new slot
-        if (curItemCount < inventorySlots)
+
+        //If the item is new, find an empty slot to place the item
+        if (curItemCount < inventoryUI.GetComponent<InventoryUIController>().slots.Count)
         {
-            Debug.Log("Added Item");
-            items.Add(itemRef);
-            inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
-            curItemCount++;
+            foreach (InventorySlot emptySlot in inventoryUI.GetComponent<InventoryUIController>().slots)
+            {
+                if (emptySlot.itemsInSlot == 0)
+                {
+                    Debug.Log("Added new item to empty slot");
+                    emptySlot.currentItem = item;
+                    emptySlot.itemsInSlot += 1;
+                    items.Add(item);
+                    inventoryUI.GetComponent<InventoryUIController>().UIUpdate();
+                    curItemCount++;
+                    return;
+                }
+            }
+            Debug.Log("Inventory full, cannot add item");
         }
-        
+
     }
 
     //If the Item in the slot is completely gone (i.e. if there are 0 of a certain item in a slot) completely remove the item from the inventory

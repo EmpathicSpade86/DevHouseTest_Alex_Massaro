@@ -64,15 +64,17 @@ public class InventoryUIController : MonoBehaviour
     //Return the slot with an item to add to its current count
     public InventorySlot GetItemSlot(Item item)
     {
-        foreach(InventorySlot slot in slots)
+        foreach (InventorySlot slot in slots)
         {
-            if (item == slot.currentItem)
+            // Compare item IDs instead of the objects themselves
+            if (slot.currentItem != null && item.itemID == slot.currentItem.itemID && slot.itemsInSlot < slot.maxInSlot)
             {
                 return slot;
             }
         }
         return null;
     }
+
 
 
     public void RemoveItem(Item item) //Used in the Inventory slot script to call the Inventory Container Script to completely remove an item
