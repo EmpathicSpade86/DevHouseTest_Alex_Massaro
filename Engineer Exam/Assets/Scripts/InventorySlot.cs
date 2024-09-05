@@ -147,6 +147,7 @@ public class InventorySlot : MonoBehaviour
             itemSprite.sprite = currentItem.itemImage;
             countText.text = itemsInSlot.ToString();
         }
+        itemSprite.sprite = currentItem.itemImage;
         countText.text = itemsInSlot.ToString();
 
     }
